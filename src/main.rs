@@ -21,7 +21,11 @@ fn main() {
     let vertices = vec![
         -0.5f32, -0.5f32, 0.0f32, 1.0f32, 0.0f32, 0.0f32,
          0.5f32, -0.5f32, 0.0f32, 0.0f32, 1.0f32, 0.0f32,
-         0.0f32,  0.5f32, 0.0f32, 0.0f32, 0.0f32, 1.0f32,
+        -0.5f32,  0.5f32, 0.0f32, 0.0f32, 0.0f32, 1.0f32,
+
+         0.5f32,  0.5f32, 0.0f32, 1.0f32, 0.0f32, 0.0f32,
+         0.5f32, -0.5f32, 0.0f32, 0.0f32, 1.0f32, 0.0f32,
+        -0.5f32,  0.5f32, 0.0f32, 0.0f32, 0.0f32, 1.0f32,
     ];
 
     let vao = ogl::vao::VAO::new();
@@ -55,7 +59,7 @@ fn main() {
             gl::Clear(gl::COLOR_BUFFER_BIT | gl::DEPTH_BUFFER_BIT);
             gl::ClearColor(0.1f32, 0.1f32, 0.1f32, 1.0f32);
 
-            gl::DrawArrays(gl::TRIANGLES, 0, 3);
+            gl::DrawArrays(gl::TRIANGLES, 0, 6);
         }
 
         window.swap_buffers();
