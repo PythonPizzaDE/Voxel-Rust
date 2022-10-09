@@ -1,6 +1,3 @@
-extern crate glfw;
-extern crate gl;
-
 use glfw::{Action, Context, Key};
 use std::{os::raw::*, mem};
 
@@ -49,7 +46,7 @@ fn main() {
         gl::EnableVertexAttribArray(0);
         gl::EnableVertexAttribArray(1);
     }
-    
+
     let mut current_frame: f64;
     let mut last_frame = 0f64;
 
