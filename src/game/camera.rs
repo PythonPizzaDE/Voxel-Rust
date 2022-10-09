@@ -105,6 +105,5 @@ impl Camera {
         }
 
         self.front = euler_to_vector(self.pitch, self.yaw);
-        println!("pitch={} | yaw={}", self.pitch, self.yaw);
     }
 }
