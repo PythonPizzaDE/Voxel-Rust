@@ -181,6 +181,7 @@ dependencies = [
  "cgmath",
  "gl",
  "glfw",
+ "serde",
  "toml",
 ]
 
