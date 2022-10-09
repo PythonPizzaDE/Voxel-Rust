@@ -41,7 +41,7 @@ fn main() {
     shader.create_uniform("view");
     shader.create_uniform("projection");
 
-    let mut camera = game::camera::Camera::new(cgmath::Point3 { x: 0f32, y: 0f32, z: 1f32 }, 0f32, -90f32, cgmath::Vector3 { x: 0f32, y: 1f32, z: 0f32 }, 5f32, 0.01f32, 45f32);
+    let mut camera = game::camera::Camera::new(cgmath::point3(0f32, 0f32, 1f32), 0f32, -90f32, cgmath::vec3(0f32, 1f32, 0f32), 5f32, 0.01f32, 45f32);
 
     unsafe {
         gl::VertexAttribPointer(0, 3, gl::FLOAT, gl::FALSE, (6 * mem::size_of::<gl::types::GLfloat>()) as i32, 0 as *const c_void);
