@@ -6,9 +6,9 @@ use std::{ffi::CString, ptr};
 
 use cgmath::prelude::*;
 
-#[derive(Debug)]
+#[derive(Debug, Clone)]
 pub struct Shader {
-    id: u32,
+    pub id: u32,
     uniforms: HashMap<String, i32>,
 }
 
@@ -64,6 +64,7 @@ impl Shader {
     }
     
     pub fn set_matrix4_uniform(&self, uniform_name: &str, matrix: &cgmath::Matrix4<f32>) {
+        self.bind();
         unsafe {
             gl::UniformMatrix4fv(
                 self.uniforms.get(&uniform_name.to_string()).unwrap().clone(),

@@ -5,6 +5,7 @@ use glfw::{Action, Context, Key};
 use std::{os::raw::*, mem};
 
 mod ogl;
+mod game;
 
 fn main() {
     let mut glfw = glfw::init(glfw::FAIL_ON_ERRORS).unwrap();
@@ -14,6 +15,7 @@ fn main() {
     window.make_current();
     window.set_key_polling(true);
     window.set_resizable(false);
+    window.set_cursor_mode(glfw::CursorMode::Disabled);
 
     gl::load_with(|s| glfw.get_proc_address_raw(s));
     gl::Viewport::load_with(|s| glfw.get_proc_address_raw(s));
@@ -36,7 +38,10 @@ fn main() {
 
     let mut shader = ogl::shader::Shader::new("shader/vertex.glsl", "shader/fragment.glsl");
     shader.bind();
-    shader.create_uniform("rotation");
+    shader.create_uniform("view");
+    shader.create_uniform("projection");
+
+    let mut camera = game::camera::Camera::new(cgmath::Point3 { x: 0f32, y: 0f32, z: 1f32 }, 0f32, -90f32, cgmath::Vector3 { x: 0f32, y: 1f32, z: 0f32 }, 5f32, 0.01f32, 45f32);
 
     unsafe {
         gl::VertexAttribPointer(0, 3, gl::FLOAT, gl::FALSE, (6 * mem::size_of::<gl::types::GLfloat>()) as i32, 0 as *const c_void);
@@ -44,21 +49,23 @@ fn main() {
         gl::EnableVertexAttribArray(0);
         gl::EnableVertexAttribArray(1);
     }
-
-    let mut t = 0;
+    
+    let mut current_frame: f64;
+    let mut last_frame = 0f64;
 
     while !window.should_close() {
-        t += 1;
-        let mat1 = cgmath::Matrix4::from_angle_x(cgmath::Rad::from(cgmath::Deg(t as f32)));
-        let mat2 = cgmath::Matrix4::from_angle_y(cgmath::Rad::from(cgmath::Deg(t as f32)));
-        let mat3 = cgmath::Matrix4::from_angle_z(cgmath::Rad::from(cgmath::Deg(t as f32)));
-        let mat4 = mat1 * mat2 * mat3;
-        shader.set_matrix4_uniform("rotation", &mat4);
+        current_frame = glfw.get_time();
+        let delta = (current_frame - last_frame) as f32;
+        last_frame = current_frame;
+
+        let mouse_pos = window.get_cursor_pos();
+        camera.update(&mut shader, &window, delta, mouse_pos.0 as f32, mouse_pos.1 as f32);
 
         unsafe {
             gl::Clear(gl::COLOR_BUFFER_BIT | gl::DEPTH_BUFFER_BIT);
             gl::ClearColor(0.1f32, 0.1f32, 0.1f32, 1.0f32);
 
+            shader.bind();
             gl::DrawArrays(gl::TRIANGLES, 0, 6);
         }
 
@@ -66,7 +73,6 @@ fn main() {
 
         glfw.poll_events();
         for (_, event) in glfw::flush_messages(&events) {
-            println!("{:?}", event);
             match event {
                 glfw::WindowEvent::Key(Key::Escape, _, Action::Press, _) => {
                     window.set_should_close(true);
