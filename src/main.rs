@@ -39,12 +39,18 @@ fn main() {
     shader.bind();
     shader.create_uniform("view");
     shader.create_uniform("projection");
+    shader.create_uniform("model");
 
     let mut camera = game::camera::Camera::new(cgmath::point3(0f32, 0f32, 1f32), 0f32, -90f32, cgmath::vec3(0f32, 1f32, 0f32), 5f32, 0.01f32, 45f32);
 
-    let mut chunk = game::chunk::Chunk::new();
+    let mut chunk = game::chunk::Chunk::new(0, 0);
+    let mut chunk2 = game::chunk::Chunk::new(1, 0);
+
     chunk.generate_chunk();
     chunk.generate_vbo();
+
+    chunk2.generate_chunk();
+    chunk2.generate_vbo();
 
     unsafe {
         gl::VertexAttribPointer(0, 3, gl::FLOAT, gl::FALSE, (9 * mem::size_of::<gl::types::GLfloat>()) as i32, 0 as *const c_void);
@@ -75,7 +81,8 @@ fn main() {
             gl::ClearColor(0.1f32, 0.1f32, 0.1f32, 1.0f32);
         }
 
-        chunk.render();
+        chunk.render(&shader);
+        chunk2.render(&shader);
 
         window.swap_buffers();
 

@@ -6,16 +6,23 @@ const CHUNK_DEPTH: u32 = 16;
 const CHUNK_HEIGHT: u32 = 128;
 
 pub struct Chunk {
+    x: u32,
+    y: u32,
     pub blocks: [block::BlockType; (CHUNK_WIDTH * CHUNK_DEPTH * CHUNK_HEIGHT) as usize],
     vbo: Option<ogl::vbo::VBO>,
+    model_matrix: cgmath::Matrix4<f32>,
 }
 
 impl Chunk {
-    pub fn new() -> Self {
+    pub fn new(x: u32, y: u32) -> Self {
         let blocks = [block::BlockType::AIR; (CHUNK_WIDTH * CHUNK_DEPTH * CHUNK_HEIGHT) as usize];
+        let model_matrix = cgmath::Matrix4::from_translation(cgmath::vec3((x * CHUNK_WIDTH) as f32, 0f32, (y * CHUNK_DEPTH) as f32));
         Self {
+            x,
+            y,
             blocks,
             vbo: None,
+            model_matrix,
         }
     }
 
@@ -76,7 +83,8 @@ impl Chunk {
         self.vbo = Some(ogl::vbo::VBO::new(vertices));
     }
 
-    pub fn render(&self) {
+    pub fn render(&self, shader: &ogl::shader::Shader) {
+        shader.set_matrix4_uniform("model", &self.model_matrix);
         self.vbo.clone().expect("VBO has to be generated in order to render!".into()).render();
     }
 }
