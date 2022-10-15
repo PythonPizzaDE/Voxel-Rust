@@ -2,6 +2,7 @@ extern crate gl;
 
 use std::{os::raw::*, mem};
 
+#[derive(Clone)]
 pub struct VBO  {
     id: u32,
     vertices: Vec<f32>,
@@ -26,6 +27,13 @@ impl VBO {
     pub fn bind(&self) {
         unsafe {
             gl::BindBuffer(gl::ARRAY_BUFFER, self.id);
+        }
+    }
+
+    pub fn render(&self) {
+        self.bind();
+        unsafe {
+            gl::DrawArrays(gl::TRIANGLES, 0, self.vertices.len() as i32);
         }
     }
 }
