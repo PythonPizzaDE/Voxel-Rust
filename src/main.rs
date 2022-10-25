@@ -9,8 +9,6 @@ fn main() {
 
     let (mut window, events) = glfw.create_window(1280, 720, "Voxel", glfw::WindowMode::Windowed).expect("Failed to create GLFW window.");
 
-    // TODO: chunks
-
     window.make_current();
     window.set_key_polling(true);
     window.set_resizable(false);
@@ -19,21 +17,8 @@ fn main() {
     gl::load_with(|s| glfw.get_proc_address_raw(s));
     gl::Viewport::load_with(|s| glfw.get_proc_address_raw(s));
 
-    // let vertices = vec![
-    //     -0.5f32, -0.5f32, 0.0f32, 1.0f32, 0.0f32, 0.0f32,
-    //     0.5f32, -0.5f32, 0.0f32, 0.0f32, 1.0f32, 0.0f32,
-    //      -0.5f32,  0.5f32, 0.0f32, 0.0f32, 0.0f32, 1.0f32,
-
-    //     0.5f32,  0.5f32, 0.0f32, 1.0f32, 0.0f32, 0.0f32,
-    //     0.5f32, -0.5f32, 0.0f32, 0.0f32, 1.0f32, 0.0f32,
-    //     -0.5f32,  0.5f32, 0.0f32, 0.0f32, 0.0f32, 1.0f32,
-    // ];
-
     let vao = ogl::vao::VAO::new();
     vao.bind();
-
-    // let vbo = ogl::vbo::VBO::new(vertices);
-    // vbo.bind();
 
     let mut shader = ogl::shader::Shader::new("shader/vertex.glsl", "shader/fragment.glsl");
     shader.bind();
