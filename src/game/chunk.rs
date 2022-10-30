@@ -1,9 +1,6 @@
 use crate::ogl;
 use super::block;
-
-const CHUNK_WIDTH: u32 = 16;
-const CHUNK_DEPTH: u32 = 16;
-const CHUNK_HEIGHT: u32 = 128;
+use crate::game::config::{CHUNK_WIDTH, CHUNK_DEPTH, CHUNK_HEIGHT};
 
 pub struct Chunk {
     x: u32,
