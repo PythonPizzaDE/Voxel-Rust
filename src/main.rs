@@ -1,3 +1,4 @@
+use game::config;
 use glfw::{Action, Context, Key};
 use std::{os::raw::*, mem};
 
@@ -27,6 +28,7 @@ fn main() {
     shader.create_uniform("model");
 
     let mut camera = game::camera::Camera::new(cgmath::point3(0f32, 0f32, 1f32), 0f32, -90f32, cgmath::vec3(0f32, 1f32, 0f32), 5f32, 0.01f32, 45f32);
+    camera.set_position(((config::WORLD_SIZE_X_CHUNKS / 2) * config::CHUNK_WIDTH) as f32, 10f32, ((config::WORLD_SIZE_Y_CHUNKS / 2) * config::CHUNK_DEPTH) as f32);
 
     let world = game::world::World::new();
 
@@ -59,7 +61,7 @@ fn main() {
             gl::ClearColor(0.1f32, 0.1f32, 0.1f32, 1.0f32);
         }
 
-        world.render(&shader);
+        world.render(&camera, &shader);
 
         window.swap_buffers();
 

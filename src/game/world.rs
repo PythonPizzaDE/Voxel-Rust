@@ -23,9 +23,14 @@ impl World {
         }
     }
 
-    pub fn render(&self, shader: &ogl::shader::Shader) {
+    pub fn render(&self, camera: &super::camera::Camera, shader: &ogl::shader::Shader) {
         for chunk in self.chunks.iter() {
-            chunk.render(shader)
+            let x_diff = (camera.position.x - (chunk.x * config::CHUNK_WIDTH) as f32).abs();
+            let y_diff = (camera.position.z - (chunk.y * config::CHUNK_DEPTH) as f32).abs();
+            let distance = (x_diff*x_diff + y_diff*y_diff).sqrt() / ((config::CHUNK_WIDTH + config::CHUNK_DEPTH) / 2) as f32;
+            if distance <= config::RENDER_DISTANCE {
+                chunk.render(shader)
+            }
         }
     }
 

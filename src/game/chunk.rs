@@ -3,8 +3,8 @@ use super::block;
 use crate::game::config::{CHUNK_WIDTH, CHUNK_DEPTH, CHUNK_HEIGHT};
 
 pub struct Chunk {
-    x: u32,
-    y: u32,
+    pub x: u32,
+    pub y: u32,
     pub blocks: [block::BlockType; (CHUNK_WIDTH * CHUNK_DEPTH * CHUNK_HEIGHT) as usize],
     vbo: Option<ogl::vbo::VBO>,
     model_matrix: cgmath::Matrix4<f32>,

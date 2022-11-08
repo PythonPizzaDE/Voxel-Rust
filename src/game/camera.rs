@@ -21,7 +21,7 @@ pub struct Camera {
     last_mouse_x: f32,
     last_mouse_y: f32,
 
-    position: cgmath::Point3<f32>,
+    pub position: cgmath::Point3<f32>,
     front: cgmath::Vector3<f32>,
     up: cgmath::Vector3<f32>,
 
@@ -104,5 +104,11 @@ impl Camera {
         }
 
         self.front = euler_to_vector(self.pitch, self.yaw);
+    }
+
+    pub fn set_position(&mut self, x: f32, y: f32, z: f32) {
+        self.position.x = x;
+        self.position.y = y;
+        self.position.z = z;
     }
 }
