@@ -1,5 +1,6 @@
 extern crate gl;
 
+#[derive(Clone, Copy, Debug, PartialEq)]
 pub struct VAO {
     id: u32,
 }

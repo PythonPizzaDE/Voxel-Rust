@@ -2,7 +2,7 @@ extern crate gl;
 
 use std::{os::raw::*, mem};
 
-#[derive(Clone)]
+#[derive(Clone, Debug, PartialEq)]
 pub struct VBO  {
     id: u32,
     vertices: Vec<f32>,
@@ -10,16 +10,15 @@ pub struct VBO  {
 
 impl VBO {
     pub fn new(data: Vec<f32>) -> Self { 
-        let vbo = unsafe {
-            let mut vbo: u32 = 0;
-            gl::CreateBuffers(1, &mut vbo);
-            gl::BindBuffer(gl::ARRAY_BUFFER, vbo);
+        let mut vbo_id: u32 = 0;
+         unsafe {
+            gl::CreateBuffers(1, &mut vbo_id);
+            gl::BindBuffer(gl::ARRAY_BUFFER, vbo_id);
             gl::BufferData(gl::ARRAY_BUFFER, (data.len() * mem::size_of::<gl::types::GLfloat>()) as isize, &data[0] as *const f32 as *const c_void, gl::STATIC_DRAW);
-            vbo
         };
 
         Self {
-            id: vbo,
+            id: vbo_id,
             vertices: data,
         }
     }

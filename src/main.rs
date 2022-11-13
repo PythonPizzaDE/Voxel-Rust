@@ -30,7 +30,7 @@ fn main() {
     let mut camera = game::camera::Camera::new(cgmath::point3(0f32, 0f32, 1f32), 0f32, -90f32, cgmath::vec3(0f32, 1f32, 0f32), 5f32, 0.01f32, 45f32);
     camera.set_position(((config::WORLD_SIZE_X_CHUNKS / 2) * config::CHUNK_WIDTH) as f32, 140f32, ((config::WORLD_SIZE_Y_CHUNKS / 2) * config::CHUNK_DEPTH) as f32);
 
-    let world = game::world::World::new();
+    let game_world = game::world::World::new(&shader);
 
     unsafe {
         gl::VertexAttribPointer(0, 3, gl::FLOAT, gl::FALSE, (9 * mem::size_of::<gl::types::GLfloat>()) as i32, 0 as *const c_void);
@@ -61,7 +61,13 @@ fn main() {
             gl::ClearColor(0.1f32, 0.1f32, 0.1f32, 1.0f32);
         }
 
-        world.render(&camera, &shader);
+        game_world.render(&camera, &shader);
+
+        unsafe {
+            if gl::GetError() != gl::NO_ERROR {
+                println!("ERROR");
+            }
+        }
 
         window.swap_buffers();
 

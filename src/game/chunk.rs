@@ -2,18 +2,26 @@ use crate::ogl;
 use super::block;
 use crate::game::config::{CHUNK_WIDTH, CHUNK_DEPTH, CHUNK_HEIGHT};
 
+#[derive(Debug, PartialEq)]
 pub struct Chunk {
     pub x: u32,
     pub y: u32,
-    pub blocks: [block::BlockType; (CHUNK_WIDTH * CHUNK_DEPTH * CHUNK_HEIGHT) as usize],
+    pub blocks: Box<Vec<block::BlockType>>,
     vbo: Option<ogl::vbo::VBO>,
     model_matrix: cgmath::Matrix4<f32>,
 }
 
 impl Chunk {
-    pub fn new(x: u32, y: u32) -> Self {
-        let blocks = [block::BlockType::AIR; (CHUNK_WIDTH * CHUNK_DEPTH * CHUNK_HEIGHT) as usize];
+    pub fn new(x: u32, y: u32, shader: &ogl::shader::Shader) -> Self {
+        let mut blocks: Box<Vec<block::BlockType>> = Box::new(Vec::new());
+        for _ in 0..(CHUNK_WIDTH * CHUNK_DEPTH * CHUNK_HEIGHT) {
+            blocks.push(block::BlockType::AIR);
+        }
+
+        shader.bind();
+
         let model_matrix = cgmath::Matrix4::from_translation(cgmath::vec3((x * CHUNK_WIDTH) as f32, 0f32, (y * CHUNK_DEPTH) as f32));
+
         Self {
             x,
             y,
@@ -32,12 +40,12 @@ impl Chunk {
     }
 
     pub fn generate_chunk(&mut self) {
-        self.blocks = [block::BlockType::STONE; (CHUNK_WIDTH * CHUNK_DEPTH * CHUNK_HEIGHT) as usize];
         for x in 0..CHUNK_WIDTH {
-            for y in 0..CHUNK_HEIGHT {
-                for z in 0..CHUNK_DEPTH {
-                    if y >= 20 {
-                        self.set_block(x, y, z, block::BlockType::AIR)
+            for z in 0..CHUNK_DEPTH {
+                for y in 0..CHUNK_HEIGHT {
+                    if y <= self.y + 40 {
+                        // println!("y = {y}");
+                        self.set_block(x, y, z, block::BlockType::STONE)
                     }
                 }
             }
@@ -45,7 +53,7 @@ impl Chunk {
     }
 
     pub fn generate_vbo(&mut self) {
-        let mut vertices: Vec<f32> = vec![];
+        let mut vertices: Vec<f32> = Vec::new();
         for x in 0..CHUNK_WIDTH {
             for y in 0..CHUNK_HEIGHT {
                 for z in 0..CHUNK_DEPTH {
@@ -82,6 +90,7 @@ impl Chunk {
 
     pub fn render(&self, shader: &ogl::shader::Shader) {
         shader.set_matrix4_uniform("model", &self.model_matrix);
-        self.vbo.clone().expect("VBO has to be generated in order to render!".into()).render();
+        let render_vbo = self.vbo.clone().unwrap();
+        render_vbo.render();
     }
 }
