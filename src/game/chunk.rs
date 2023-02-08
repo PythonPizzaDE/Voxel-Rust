@@ -1,7 +1,8 @@
 use crate::ogl;
-use super::block;
+use super::{block, config};
 use crate::game::config::{CHUNK_WIDTH, CHUNK_DEPTH, CHUNK_HEIGHT};
 use std::{os::raw::*, mem};
+use perlin2d::PerlinNoise2D;
 
 #[derive(Debug, PartialEq)]
 pub struct Chunk {
@@ -47,12 +48,11 @@ impl Chunk {
         self.blocks[(((z * (CHUNK_WIDTH) * (CHUNK_HEIGHT)) + (y * (CHUNK_WIDTH))) + x) as usize]
     }
 
-    pub fn generate_chunk(&mut self) {
+    pub fn generate_chunk(&mut self, perlin: &PerlinNoise2D) {
         for x in 0..CHUNK_WIDTH {
             for z in 0..CHUNK_DEPTH {
                 for y in 0..CHUNK_HEIGHT {
-                    if y <= self.y + 40 {
-                        // println!("y = {y}");
+                    if y as f64 <= perlin.get_noise(((config::CHUNK_WIDTH * self.x) + x) as f64, ((config::CHUNK_DEPTH * self.y) + z) as f64) {
                         self.set_block(x, y, z, block::BlockType::Stone)
                     }
                 }

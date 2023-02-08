@@ -8,7 +8,7 @@ fn euler_to_vector(pitch: f32, yaw: f32) -> cgmath::Vector3<f32> {
     vector.x = (yaw * HALF).cos() * (pitch * HALF).cos();
     vector.y = -((pitch * HALF).sin());
     vector.z = (yaw * HALF).sin() * (pitch * HALF).cos();
-    vector.normalize()
+   vector.normalize()
 }
 
 pub struct Camera {
@@ -79,7 +79,7 @@ impl Camera {
 
         let look_at_point = self.position + self.front;
         self.view_matrix = cgmath::Matrix4::look_at_rh(self.position, look_at_point, self.up);
-        self.projection_matrix = cgmath::perspective(self.fov, 1280f32 / 720f32, 0.1f32, 100f32);
+        self.projection_matrix = cgmath::perspective(self.fov, 1280f32 / 720f32, 0.1f32, 1000f32);
 
         shader.set_matrix4_uniform("view", &self.view_matrix);
         shader.set_matrix4_uniform("projection", &self.projection_matrix);
