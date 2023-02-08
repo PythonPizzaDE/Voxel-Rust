@@ -52,8 +52,11 @@ impl Chunk {
         for x in 0..CHUNK_WIDTH {
             for z in 0..CHUNK_DEPTH {
                 for y in 0..CHUNK_HEIGHT {
-                    if y as f64 <= perlin.get_noise(((config::CHUNK_WIDTH * self.x) + x) as f64, ((config::CHUNK_DEPTH * self.y) + z) as f64) {
+                    let height = perlin.get_noise(((config::CHUNK_WIDTH * self.x) + x) as f64, ((config::CHUNK_DEPTH * self.y) + z) as f64);
+                    if (y as f64) < height - 1f64 {
                         self.set_block(x, y, z, block::BlockType::Stone)
+                    } else if (y as f64) <= height {
+                        self.set_block(x, y, z, block::BlockType::Grass)
                     }
                 }
             }
@@ -65,26 +68,26 @@ impl Chunk {
         for x in 0..CHUNK_WIDTH {
             for y in 0..CHUNK_HEIGHT {
                 for z in 0..CHUNK_DEPTH {
-                    let block = self.get_block(x, y, z);
-                    if block != block::BlockType::Air {
+                    let current_block = self.get_block(x, y, z);
+                    if current_block != block::BlockType::Air {
                         let mut block_mesh = block::BlockVerticesBuilder::new();
 
                         if x == CHUNK_WIDTH - 1 || (self.get_block(x + 1, y, z) == block::BlockType::Air) {
-                            block_mesh.add(block::BlockFace::East, block::BlockType::Stone, x, y, z);
+                            block_mesh.add(block::BlockFace::East, current_block, x, y, z);
                         } else if x == 0 || (self.get_block(x - 1, y, z) == block::BlockType::Air) {
-                            block_mesh.add(block::BlockFace::West, block::BlockType::Stone, x, y, z);
+                            block_mesh.add(block::BlockFace::West, current_block, x, y, z);
                         }
 
                         if y == CHUNK_HEIGHT - 1 || (self.get_block(x, y + 1, z) == block::BlockType::Air) {
-                            block_mesh.add(block::BlockFace::Top, block::BlockType::Stone, x, y, z);
+                            block_mesh.add(block::BlockFace::Top, current_block, x, y, z);
                         } else if y == 0 || (self.get_block(x, y - 1, z) == block::BlockType::Air) {
-                            block_mesh.add(block::BlockFace::Bottom, block::BlockType::Stone, x, y, z);
+                            block_mesh.add(block::BlockFace::Bottom, current_block, x, y, z);
                         }
 
                         if z == CHUNK_DEPTH - 1 || (self.get_block(x, y, z + 1) == block::BlockType::Air) {
-                            block_mesh.add(block::BlockFace::North, block::BlockType::Stone, x, y, z);
+                            block_mesh.add(block::BlockFace::North, current_block, x, y, z);
                         } else if z == 0 || (self.get_block(x, y, z - 1) == block::BlockType::Air) {
-                            block_mesh.add(block::BlockFace::South, block::BlockType::Stone, x, y, z);
+                            block_mesh.add(block::BlockFace::South, current_block, x, y, z);
                         }
 
                         vertices.extend(block_mesh.build());
