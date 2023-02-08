@@ -27,15 +27,15 @@ fn main() {
     shader.create_uniform("projection");
     shader.create_uniform("model");
 
-    let mut camera = game::camera::Camera::new(cgmath::point3(0f32, 0f32, 1f32), 0f32, -90f32, cgmath::vec3(0f32, 1f32, 0f32), 5f32, 0.01f32, 45f32);
+    let mut camera = game::camera::Camera::new(cgmath::point3(0f32, 0f32, 1f32), 0f32, -90f32, cgmath::vec3(0f32, 1f32, 0f32), config::PLAYER_SPEED, 0.01f32, 45f32);
     camera.set_position(((config::WORLD_SIZE_X_CHUNKS / 2) * config::CHUNK_WIDTH) as f32, 140f32, ((config::WORLD_SIZE_Y_CHUNKS / 2) * config::CHUNK_DEPTH) as f32);
 
     let game_world = game::world::World::new(&shader);
 
     unsafe {
-        gl::VertexAttribPointer(0, 3, gl::FLOAT, gl::FALSE, (9 * mem::size_of::<gl::types::GLfloat>()) as i32, 0 as *const c_void);
-        gl::VertexAttribPointer(1, 3, gl::FLOAT, gl::FALSE, (9 * mem::size_of::<gl::types::GLfloat>()) as i32, (3 * mem::size_of::<gl::types::GLfloat>()) as *const c_void);
-        gl::VertexAttribPointer(2, 3, gl::FLOAT, gl::FALSE, (9 * mem::size_of::<gl::types::GLfloat>()) as i32, (6 * mem::size_of::<gl::types::GLfloat>()) as *const c_void);
+        gl::VertexAttribPointer(0, 3, gl::FLOAT, gl::FALSE, (9 * mem::size_of::<f32>()) as i32, 0 as *const c_void);
+        gl::VertexAttribPointer(1, 3, gl::FLOAT, gl::FALSE, (9 * mem::size_of::<f32>()) as i32, (3 * mem::size_of::<f32>()) as *const c_void);
+        gl::VertexAttribPointer(2, 3, gl::FLOAT, gl::FALSE, (9 * mem::size_of::<f32>()) as i32, (6 * mem::size_of::<f32>()) as *const c_void);
         gl::EnableVertexAttribArray(0);
         gl::EnableVertexAttribArray(1);
         gl::EnableVertexAttribArray(2);

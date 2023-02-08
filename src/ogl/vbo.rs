@@ -14,7 +14,7 @@ impl VBO {
          unsafe {
             gl::CreateBuffers(1, &mut vbo_id);
             gl::BindBuffer(gl::ARRAY_BUFFER, vbo_id);
-            gl::BufferData(gl::ARRAY_BUFFER, (data.len() * mem::size_of::<gl::types::GLfloat>()) as isize, &data[0] as *const f32 as *const c_void, gl::STATIC_DRAW);
+            gl::BufferData(gl::ARRAY_BUFFER, (data.len() * mem::size_of::<f32>()) as isize, &data[0] as *const f32 as *const c_void, gl::STATIC_DRAW);
         };
 
         Self {
@@ -30,9 +30,10 @@ impl VBO {
     }
 
     pub fn render(&self) {
-        self.bind();
+        let count = self.vertices.len() as i32;
         unsafe {
-            gl::DrawArrays(gl::TRIANGLES, 0, self.vertices.len() as i32);
+            gl::BindBuffer(gl::ARRAY_BUFFER, self.id);
+            gl::DrawArrays(gl::TRIANGLES, 0, count);
         }
     }
 }

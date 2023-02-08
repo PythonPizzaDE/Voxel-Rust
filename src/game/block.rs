@@ -1,7 +1,7 @@
 #[derive(Debug, Clone, Copy, Eq, PartialEq)]
 pub enum BlockType {
-    AIR,
-    STONE,
+    Air,
+    Stone,
 }
 
 pub enum BlockFace {
@@ -32,7 +32,7 @@ impl BlockVerticesBuilder {
                                                         1f32 + x as f32, 1f32 + y as f32, 0f32 + z as f32, 0.5f32, 0.5f32, 0.5f32, 0f32, 1f32, 0f32,
                                                         1f32 + x as f32, 1f32 + y as f32, 0f32 + z as f32, 0.5f32, 0.5f32, 0.5f32, 0f32, 1f32, 0f32,
                                                         0f32 + x as f32, 1f32 + y as f32, 0f32 + z as f32, 0.5f32, 0.5f32, 0.5f32, 0f32, 1f32, 0f32,
-                                                        0f32 + x as f32, 1f32 + y as f32, 1f32 + z as f32, 0.5f32, 0.5f32, 0.5f32, 0f32, 1f32, 0f32,]),
+                                                        0f32 + x as f32, 1f32 + y as f32, 1f32 + z as f32, 0.5f32, 0.5f32, 0.5f32, 0f32, 1f32, 0f32,].into_boxed_slice().iter()),
 
             BlockFace::Bottom => self.vertices.extend(vec![1f32 + x as f32, 0f32 + y as f32, 1f32 + z as f32, 0.5f32, 0.5f32, 0.5f32, 0f32, -1f32, 0f32,
                                                            // 0f32 + x as f32, 0f32 + y as f32, 1f32 + z as f32, 0.5f32, 0.5f32, 0.5f32, 0f32, -1f32, 0f32,
@@ -40,35 +40,36 @@ impl BlockVerticesBuilder {
                                                            1f32 + x as f32, 0f32 + y as f32, 0f32 + z as f32, 0.5f32, 0.5f32, 0.5f32, 0f32, -1f32, 0f32,
                                                            1f32 + x as f32, 0f32 + y as f32, 0f32 + z as f32, 0.5f32, 0.5f32, 0.5f32, 0f32, -1f32, 0f32,
                                                            0f32 + x as f32, 0f32 + y as f32, 0f32 + z as f32, 0.5f32, 0.5f32, 0.5f32, 0f32, -1f32, 0f32,
-                                                           0f32 + x as f32, 0f32 + y as f32, 1f32 + z as f32, 0.5f32, 0.5f32, 0.5f32, 0f32, -1f32, 0f32,]),
+                                                           0f32 + x as f32, 0f32 + y as f32, 1f32 + z as f32, 0.5f32, 0.5f32, 0.5f32, 0f32, -1f32, 0f32,].into_boxed_slice().iter()),
 
             BlockFace::North => self.vertices.extend(vec![1f32 + x as f32, 1f32 + y as f32, 1f32 + z as f32, 0.5f32, 0.5f32, 0.5f32, 0f32, 0f32, 1f32,
-                                                          0f32 + x as f32, 1f32 + y as f32, 1f32 + z as f32, 0.5f32, 0.5f32, 0.5f32, 0f32, 0f32, 1f32,
+                                                          // 0f32 + x as f32, 1f32 + y as f32, 1f32 + z as f32, 0.5f32, 0.5f32, 0.5f32, 0f32, 0f32, 1f32,
+                                                          0f32 + x as f32, 1f32 + y as f32, 1f32 + z as f32, 1.0f32, 1.0f32, 0.5f32, 0f32, 0f32, 1f32,
                                                           1f32 + x as f32, 0f32 + y as f32, 1f32 + z as f32, 0.5f32, 0.5f32, 0.5f32, 0f32, 0f32, 1f32,
                                                           1f32 + x as f32, 0f32 + y as f32, 1f32 + z as f32, 0.5f32, 0.5f32, 0.5f32, 0f32, 0f32, 1f32,
                                                           0f32 + x as f32, 0f32 + y as f32, 1f32 + z as f32, 0.5f32, 0.5f32, 0.5f32, 0f32, 0f32, 1f32,
-                                                          0f32 + x as f32, 1f32 + y as f32, 1f32 + z as f32, 0.5f32, 0.5f32, 0.5f32, 0f32, 0f32, 1f32,]),
+                                                          0f32 + x as f32, 1f32 + y as f32, 1f32 + z as f32, 0.5f32, 0.5f32, 0.5f32, 0f32, 0f32, 1f32,].into_boxed_slice().iter()),
 
             BlockFace::South => self.vertices.extend(vec![1f32 + x as f32, 1f32 + y as f32, 0f32 + z as f32, 0.5f32, 0.5f32, 0.5f32, 0f32, 0f32, -1f32,
                                                           0f32 + x as f32, 1f32 + y as f32, 0f32 + z as f32, 0.5f32, 0.5f32, 0.5f32, 0f32, 0f32, -1f32,
                                                           1f32 + x as f32, 0f32 + y as f32, 0f32 + z as f32, 0.5f32, 0.5f32, 0.5f32, 0f32, 0f32, -1f32,
                                                           1f32 + x as f32, 0f32 + y as f32, 0f32 + z as f32, 0.5f32, 0.5f32, 0.5f32, 0f32, 0f32, -1f32,
                                                           0f32 + x as f32, 0f32 + y as f32, 0f32 + z as f32, 0.5f32, 0.5f32, 0.5f32, 0f32, 0f32, -1f32,
-                                                          0f32 + x as f32, 1f32 + y as f32, 0f32 + z as f32, 0.5f32, 0.5f32, 0.5f32, 0f32, 0f32, -1f32,]),
+                                                          0f32 + x as f32, 1f32 + y as f32, 0f32 + z as f32, 0.5f32, 0.5f32, 0.5f32, 0f32, 0f32, -1f32,].into_boxed_slice().iter()),
 
             BlockFace::East => self.vertices.extend(vec![1f32 + x as f32, 1f32 + y as f32, 1f32 + z as f32, 0.5f32, 0.5f32, 0.5f32, 1f32, 0f32, 0f32,
                                                          1f32 + x as f32, 1f32 + y as f32, 0f32 + z as f32, 0.5f32, 0.5f32, 0.5f32, 1f32, 0f32, 0f32,
                                                          1f32 + x as f32, 0f32 + y as f32, 1f32 + z as f32, 0.5f32, 0.5f32, 0.5f32, 1f32, 0f32, 0f32,
                                                          1f32 + x as f32, 0f32 + y as f32, 1f32 + z as f32, 0.5f32, 0.5f32, 0.5f32, 1f32, 0f32, 0f32,
                                                          1f32 + x as f32, 0f32 + y as f32, 0f32 + z as f32, 0.5f32, 0.5f32, 0.5f32, 1f32, 0f32, 0f32,
-                                                         1f32 + x as f32, 1f32 + y as f32, 0f32 + z as f32, 0.5f32, 0.5f32, 0.5f32, 1f32, 0f32, 0f32,]),
+                                                         1f32 + x as f32, 1f32 + y as f32, 0f32 + z as f32, 0.5f32, 0.5f32, 0.5f32, 1f32, 0f32, 0f32,].into_boxed_slice().iter()),
 
             BlockFace::West => self.vertices.extend(vec![0f32 + x as f32, 1f32 + y as f32, 1f32 + z as f32, 0.5f32, 0.5f32, 0.5f32, -1f32, 0f32, 0f32,
                                                          0f32 + x as f32, 1f32 + y as f32, 0f32 + z as f32, 0.5f32, 0.5f32, 0.5f32, -1f32, 0f32, 0f32,
                                                          0f32 + x as f32, 0f32 + y as f32, 1f32 + z as f32, 0.5f32, 0.5f32, 0.5f32, -1f32, 0f32, 0f32,
                                                          0f32 + x as f32, 0f32 + y as f32, 1f32 + z as f32, 0.5f32, 0.5f32, 0.5f32, -1f32, 0f32, 0f32,
                                                          0f32 + x as f32, 0f32 + y as f32, 0f32 + z as f32, 0.5f32, 0.5f32, 0.5f32, -1f32, 0f32, 0f32,
-                                                         0f32 + x as f32, 1f32 + y as f32, 0f32 + z as f32, 0.5f32, 0.5f32, 0.5f32, -1f32, 0f32, 0f32,]),
+                                                         0f32 + x as f32, 1f32 + y as f32, 0f32 + z as f32, 0.5f32, 0.5f32, 0.5f32, -1f32, 0f32, 0f32,].into_boxed_slice().iter()),
         }
 
         self
