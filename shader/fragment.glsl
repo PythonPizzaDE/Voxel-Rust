@@ -8,7 +8,7 @@ out vec4 FragColor;
 
 void main()
 {
-    vec3 light_position = vec3(30.0f, 50.0f, 30.0f);
+    vec3 light_position = vec3(30.0f, 100.0f, 30.0f);
     float ambient_light = 0.75f;
 
     float angle = dot(Normal, normalize(light_position - Position));

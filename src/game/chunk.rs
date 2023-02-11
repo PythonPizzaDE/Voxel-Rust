@@ -74,19 +74,22 @@ impl Chunk {
 
                         if x == CHUNK_WIDTH - 1 || (self.get_block(x + 1, y, z) == block::BlockType::Air) {
                             block_mesh.add(block::BlockFace::East, current_block, x, y, z);
-                        } else if x == 0 || (self.get_block(x - 1, y, z) == block::BlockType::Air) {
+                        } 
+                        if x == 0 || (self.get_block(x - 1, y, z) == block::BlockType::Air) {
                             block_mesh.add(block::BlockFace::West, current_block, x, y, z);
                         }
 
                         if y == CHUNK_HEIGHT - 1 || (self.get_block(x, y + 1, z) == block::BlockType::Air) {
                             block_mesh.add(block::BlockFace::Top, current_block, x, y, z);
-                        } else if y == 0 || (self.get_block(x, y - 1, z) == block::BlockType::Air) {
+                        }
+                        if y == 0 || (self.get_block(x, y - 1, z) == block::BlockType::Air) {
                             block_mesh.add(block::BlockFace::Bottom, current_block, x, y, z);
                         }
 
                         if z == CHUNK_DEPTH - 1 || (self.get_block(x, y, z + 1) == block::BlockType::Air) {
                             block_mesh.add(block::BlockFace::North, current_block, x, y, z);
-                        } else if z == 0 || (self.get_block(x, y, z - 1) == block::BlockType::Air) {
+                        }
+                        if z == 0 || (self.get_block(x, y, z - 1) == block::BlockType::Air) {
                             block_mesh.add(block::BlockFace::South, current_block, x, y, z);
                         }
 

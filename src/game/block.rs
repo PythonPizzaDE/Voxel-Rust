@@ -21,7 +21,7 @@ pub struct BlockVerticesBuilder {
 fn block_color(block_type: BlockType) -> (f32, f32, f32) {
     return match block_type {
         BlockType::Stone => (0.5f32, 0.5f32, 0.5f32),
-        BlockType::Grass => (0.16f32, 0.78f32, 0.34f32),
+        BlockType::Grass => (0.16f32, 0.68f32, 0.34f32),
         BlockType::Air => (0f32, 0f32, 0f32),
     }
 }
@@ -34,7 +34,6 @@ impl BlockVerticesBuilder {
     }
     pub fn add(&mut self, face: BlockFace, block_type: BlockType, x: u32, y: u32, z: u32) -> &mut Self {
         let (r, g, b) = block_color(block_type);
-        dbg!(block_type);
 
         match face {
                                                     //  x                y                z                r  g  b       normals
